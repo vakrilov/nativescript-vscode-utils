@@ -8,20 +8,37 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-		console.log('Congratulations, your extension "nativescript-vscode-utils" is now active!');
+	console.log('Congratulations, your extension "nativescript-vscode-utils" is now active!');
+
+	const handleBundleResults = (result: vscode.Uri[]) => {
+		if (result.length === 0) {
+			vscode.window.showInformationMessage("Bundle not found");
+		} else if (result.length === 1) {
+			vscode.window.showTextDocument(vscode.Uri.file(result[0].path));
+		} else {
+			vscode.window.showQuickPick(result.map(uri => uri.path)).then(selected => {
+				if (selected) {
+					vscode.window.showTextDocument(vscode.Uri.file(selected));
+				}
+			});
+		}
+	}
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World!');
+	let openBundleIosDispose = vscode.commands.registerCommand('nsUtils.openBundleIos', () => {
+		vscode.workspace.findFiles("**/platforms/ios/**/bundle.js", "**/platforms/ios/build/**" ).then(handleBundleResults);
 	});
 
-	context.subscriptions.push(disposable);
+	let openBundleAndroidDispose = vscode.commands.registerCommand('nsUtils.openBundleAndroid', () => {
+		vscode.workspace.findFiles("**/platforms/android/**/src/**/bundle.js").then(handleBundleResults);
+	});
+
+
+	context.subscriptions.push(openBundleIosDispose);
+	context.subscriptions.push(openBundleAndroidDispose);
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }

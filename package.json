@@ -10,14 +10,19 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"onCommand:nsUtils.openBundleIos",
+		"onCommand:nsUtils.openBundleAndroid"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
+				"command": "nsUtils.openBundleIos",
+				"title": "Open Bundle IOS"
+			},
+			{
+				"command": "nsUtils.openBundleAndroid",
+				"title": "Open Bundle Android"
 			}
 		]
 	},
