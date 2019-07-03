@@ -26,6 +26,14 @@
 			}
 		]
 	},
+	"publisher": "vakrilov",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/vakrilov/nativescript-vscode-utils.git"
+	},
+	"contributors": [
+		"Alexander Vakrilov <alexander.vakrilov@gmail.com>"
+	],
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
